@@ -2,7 +2,7 @@
 import pandas as pd
 
 # load a csv file
-e_commerce_data_path_csv = "./data/data.csv"
+e_commerce_data_path_csv = "../data/data.csv"
 e_commerce_csv_df = pd.read_csv(
     e_commerce_data_path_csv,  encoding='unicode_escape', nrows=1000)
 # show columns
@@ -68,7 +68,7 @@ print(temp_dtype_change_df.dtypes)
 #######################################################################
 
 # load json
-e_commerce_data_path_json = "./data/data_subset.json"
+e_commerce_data_path_json = "../data/data_subset.json"
 e_commerce_json_df = pd.read_json(
     e_commerce_data_path_json,  encoding='unicode_escape')
 
@@ -77,7 +77,7 @@ print(len(e_commerce_csv_df) + len(e_commerce_json_df))
 # > 1004
 
 # Append the csv and the json to a new dataframe
-e_commerce_appended_df = e_commerce_csv_df.append(e_commerce_json_df)
+e_commerce_appended_df = pd.concat([e_commerce_csv_df, e_commerce_json_df])
 print(e_commerce_appended_df)
 # >     InvoiceNo StockCode                          Description  Quantity         InvoiceDate UnitPrice  CustomerID         Country
 # > 0      536365    85123A   WHITE HANGING HEART T-LIGHT HOLDER         6 2010-12-01 08:26:00      2.55       17850  United Kingdom
@@ -250,14 +250,14 @@ print(e_commerce_pivoted)
 # > [945 rows x 5 columns]
 
 # store dataframe as parquet file
-e_commerce_pivoted.to_parquet('./data/e_commerce_pivoted.parquet.gzip',
+e_commerce_pivoted.to_parquet('../data/e_commerce_pivoted.parquet.gzip',
                               compression='gzip')
 # > None
 
 # read parquet file
 
 read_parquet = pd.read_parquet(
-    './data/e_commerce_pivoted.parquet.gzip')
+    '../data/e_commerce_pivoted.parquet.gzip')
 
 print(read_parquet.head(10))
 # > Country          unique_id  Australia  France  Netherlands  United Kingdom
@@ -301,7 +301,9 @@ json_obj = {
         'UnitPrice': 'UnitPrice'}
 }
 json_df_raw = pd.DataFrame.from_dict(json_obj)
-print(json_df_raw.dtypes)
+print(json_df_raw)
 
 json_df_normalized = pd.json_normalize(json_obj)
+print(json_df_normalized)
+
 print(json_df_normalized.dtypes)
